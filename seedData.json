@@ -1,0 +1,45 @@
+
+        {
+            "id": 1,
+            "location": "The Atomic Fern",
+            "zip": 27701,
+            "address": "108 East Parrish St",
+            "type": "Bar"
+        }
+        {
+            "id": 2,
+            "location": "The Pinhook",
+            "zip": 27701,
+            "address": "117 W Main St",
+            "type": "Bar"
+        }
+        {
+            "id": 3,
+            "location": "Dashi Ramen",
+            "zip": 27701,
+            "address": "415 E Chapel Hill St",
+            "type": "Restaurant"
+        }
+        {
+            "id": 5,
+            "location": "Taberna Tapas",
+            "zip": 27701,
+            "address": "325 West Main St",
+            "type": "Restaurant"
+        }
+        {
+            "id": 6,
+            "location": "Pizzeria Toro",
+            "zip": 27701,
+            "address": "105 E Chapel Hill St",
+            "type": "Restaurant"
+        }
+        {
+            "id": 6,
+            "location": "Geer Street Garden",
+            "zip": 27701,
+            "address": "644 Foster St",
+            "type": "Restaurant"
+        }
+
+  
