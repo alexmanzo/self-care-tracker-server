@@ -1,0 +1,11 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: K6mBF75Rs15KDhc50oruG0QNB+qDl1stVlDQJvD1xaIhNvlq8NvekpCqkOz/ePdGid2fQokLAxGH3hmzmLQCJixoqTGx5Cs8BauKHlwV1QRNDxNCeET/KZnd7fNxPD3rMDH8uVur1vIoVjEJL4wfsTPpAykbNBQnYHYkzCTlqRWwj//mQePViC+XvWoxL6mEKwgX2IlSqOk1V2AvA7YGooD/Ppvo4nbPxGOYqt6DMQNUwt6QuNzCH7QUrMLUG73Y/PAvqhE/Wu+7RiXtb+BZ4j2gNMaxn3OYyB9z7oT9WvGjON2DXS7qJi4onux4cZm/Cp8mI9lN8ztRU0K6IYz5lxSNPGVkqQvDyv2X6aZLgHiJoFb8fvx6hhBa1Y/EuK2QPkNv961U8Z5Vk2ayaKI1r2s5s/ll6IntQ7p3m3aMvLEf5QPSg85UVQQZKcfayPOtZR2Pgi8WMF5OVetKgztC1ZEPEEeL3iyI32RwDBS50SDVtBc+3wyW8PMEwYvH73qSWQmccSYAuTF5C9w0wXJBMAGkONhsM35KG/Xkas6O2P4CNp1yvoq4h8P/+7WRLA1G0aWxmi0UCytINkCpVybtpHQ09k2DWqEjdQB9kq73zHpX+Y7nahXWPX7NxhYr0FSUzadIw8RQwmtf8RiwJRLujPWSQjlKsSif1kZKY+ojWFM=
+  app: gentle-lake-28954
+  on:
+    repo: alexmanzo/bathroom-finder-server
