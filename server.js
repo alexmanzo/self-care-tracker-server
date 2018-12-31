@@ -20,9 +20,6 @@ app.use(
 const bathroomRouter = require('./routers/api-bathroom-router')
 app.use('/api/bathrooms', bathroomRouter)
 
-// app.get("/api/*", (req, res) => {
-//   res.json({ ok: true })
-// })
 
 // SERVER SETUP
 let server;
