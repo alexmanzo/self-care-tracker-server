@@ -101,8 +101,7 @@ router.put('/:id', jsonParser, (req, res) => {
 
 // ----- DELETE Requests -----//
 router.delete('/:id', (req, res) => {
-  Location.dropIndex('location_1')
-    .findByIdAndRemove(req.params.id)
+  Location.findByIdAndRemove(req.params.id)
     .then(update => res.status(201).json({ message: 'location deleted' }))
     .catch(err => res.status(500).json({ message: 'something went wrong' }))
 })

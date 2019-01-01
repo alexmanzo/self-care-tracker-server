@@ -55,7 +55,7 @@ describe('Location API', function() {
 
 	describe('GET endpoint', function() {
 
-		it('should return all existing location locations', function () {
+		it('should return all existing locations', function () {
 			let res;
 			return chai.request(app)
 				.get('/api/locations')
@@ -67,7 +67,7 @@ describe('Location API', function() {
 			})
 		})
 
-		it('should return location location with right fields', function () {
+		it('should return location with right fields', function () {
 			let resLocation;
 			return chai.request(app)
 				.get('/api/locations')
@@ -97,7 +97,7 @@ describe('Location API', function() {
 	})
 
 	describe('POST endpoint', function() {
-		it('should add a new location location', function() {
+		it('should add a new location', function() {
 			const newLocation = generateLocationData()
 
 			return chai.request(app)
@@ -120,7 +120,7 @@ describe('Location API', function() {
 	describe('DELETE endpoint', function() {
 		let location;
 		
-		it('should delete a location location', function () {
+		it('should delete a location', function () {
 			return Location
 			.findOne()
 			.then(function(_location) {
