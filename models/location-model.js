@@ -2,16 +2,16 @@ const mongoose = require("mongoose")
 const uniqueValidator = require('mongoose-unique-validator')
 mongoose.Promise = global.Promise
 
-const bathroomSchema = new mongoose.Schema({
+const locationSchema = new mongoose.Schema({
   location: { type: String, required: true, unique: true },
   zip: { type: Number, required: true },
   address: { type: String, required: true },
   type: { type: String, required: true }
 });
 
-bathroomSchema.plugin(uniqueValidator, { message: 'This location ha already been added.' })
+locationSchema.plugin(uniqueValidator, { message: 'This location ha already been added.' })
 
-bathroomSchema.methods.serialize = function() {
+locationSchema.methods.serialize = function() {
   return {
     id: this._id,
     location: this.location,
@@ -21,4 +21,4 @@ bathroomSchema.methods.serialize = function() {
   };
 };
 
-module.exports = mongoose.model("Bathroom", bathroomSchema);
+module.exports = mongoose.model("Location", locationSchema);

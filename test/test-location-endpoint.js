@@ -6,23 +6,23 @@ const mongoose = require('mongoose')
 const expect = chai.expect
 
 const { app, runServer, closeServer } = require('../server')
-const Bathroom = require('../models/bathroom-model')
+const Location = require('../models/location-model')
 const { TEST_DATABASE_URL } = require('../config')
 
 chai.use(chaiHttp)
 
-function seedBathroomData () {
+function seedLocationData () {
 	console.info('seeding data')
 	const seedData = []
 
 	for (let i=1; i<=10; i++) {
-		seedData.push(generateBathroomData())
+		seedData.push(generateLocationData())
 	}
 
-	return Bathroom.insertMany(seedData)
+	return Location.insertMany(seedData)
 }
 
-function generateBathroomData () {
+function generateLocationData () {
 	return {
     location: faker.lorem.word(),
     zip: Math.floor(Math.random()*100000),
@@ -36,13 +36,13 @@ function tearDownDb() {
 	return mongoose.connection.dropDatabase()
 }
 
-describe('Bathroom API', function() {
+describe('Location API', function() {
 	before(function(){
 		return runServer(TEST_DATABASE_URL)
 	})
 
 	beforeEach(function(){
-		return seedBathroomData()
+		return seedLocationData()
 	})
 
 	afterEach(function() {
@@ -55,84 +55,84 @@ describe('Bathroom API', function() {
 
 	describe('GET endpoint', function() {
 
-		it('should return all existing bathroom locations', function () {
+		it('should return all existing location locations', function () {
 			let res;
 			return chai.request(app)
-				.get('/api/bathrooms')
+				.get('/api/locations')
 				.then(function(_res){
 					res = _res
 					expect(res).to.have.status(200)
 					expect(res.body).to.have.length.of.at.least(1)
-					return Bathroom.count()
+					return Location.count()
 			})
 		})
 
-		it('should return bathroom location with right fields', function () {
-			let resBathroom;
+		it('should return location location with right fields', function () {
+			let resLocation;
 			return chai.request(app)
-				.get('/api/bathrooms')
+				.get('/api/locations')
 				.then(function(res) {
 					expect(res).to.have.status(200)
 					expect(res).to.be.json
 					expect(res.body).to.be.a('array')
 					expect(res.body).to.have.length.of.at.least(1)
 
-					res.body.forEach(function(bathroom){
-						expect(bathroom).to.be.a('object')
-						expect(bathroom).to.include.keys('id', 'location', 'zip', 'address', 'type')
+					res.body.forEach(function(location){
+						expect(location).to.be.a('object')
+						expect(location).to.include.keys('id', 'location', 'zip', 'address', 'type')
 					})
 
-					resBathroom = res.body[0]
-					return Bathroom.findById(resBathroom.id)
+					resLocation = res.body[0]
+					return Location.findById(resLocation.id)
 				})
-				.then (function(bathroom){
-					expect(resBathroom.id).to.equal(bathroom.id)
-          expect(resBathroom.location).to.equal(bathroom.location)
-          expect(resBathroom.zip).to.equal(bathroom.zip)
-          expect(resBathroom.address).to.equal(bathroom.address)
-          expect(resBathroom.type).to.equal(bathroom.type)
+				.then (function(location){
+					expect(resLocation.id).to.equal(location.id)
+          expect(resLocation.location).to.equal(location.location)
+          expect(resLocation.zip).to.equal(location.zip)
+          expect(resLocation.address).to.equal(location.address)
+          expect(resLocation.type).to.equal(location.type)
 				})
 
 		})
 	})
 
 	describe('POST endpoint', function() {
-		it('should add a new bathroom location', function() {
-			const newBathroom = generateBathroomData()
+		it('should add a new location location', function() {
+			const newLocation = generateLocationData()
 
 			return chai.request(app)
-				.post('/api/bathrooms')
-				.send(newBathroom)
+				.post('/api/locations')
+				.send(newLocation)
 				.then(function(res){
 					expect(res).to.have.status(201)
 					expect(res).to.be.json
 					expect(res.body).to.be.a('object')
 					expect(res.body).to.include.keys('id', 'location', 'zip', 'address', 'type')
 					expect(res.body.id).to.not.be.null
-          expect(res.body.location).to.equal(newBathroom.location)
-          expect(res.body.zip).to.equal(newBathroom.zip)
-          expect(res.body.address).to.equal(newBathroom.address)
-          expect(res.body.type).to.equal(newBathroom.type)
+          expect(res.body.location).to.equal(newLocation.location)
+          expect(res.body.zip).to.equal(newLocation.zip)
+          expect(res.body.address).to.equal(newLocation.address)
+          expect(res.body.type).to.equal(newLocation.type)
 				})
 		})
 	})
 
 	describe('DELETE endpoint', function() {
-		let bathroom;
+		let location;
 		
-		it('should delete a bathroom location', function () {
-			return Bathroom
+		it('should delete a location location', function () {
+			return Location
 			.findOne()
-			.then(function(_bathroom) {
-				bathroom = _bathroom
-				return chai.request(app).delete(`/api/bathrooms/${bathroom.id}`)
+			.then(function(_location) {
+				location = _location
+				return chai.request(app).delete(`/api/locations/${location.id}`)
 			})
 			.then(function(res) {
 				expect(res).to.have.status(201)
-				return Bathroom.findById(bathroom.id)
+				return Location.findById(location.id)
 			})
-			.then(function(_bathroom) {
-				expect(_bathroom).to.be.null
+			.then(function(_location) {
+				expect(_location).to.be.null
 			})
 		})
 
@@ -145,22 +145,22 @@ describe('Bathroom API', function() {
 				address: faker.lorem.word()
 			}
 
-			return Bathroom
+			return Location
 				.findOne()
-				.then(function(bathroom) {
-					updateData.id = bathroom.id
+				.then(function(location) {
+					updateData.id = location.id
 
 					return chai.request(app)
-						.put(`/api/bathrooms/${bathroom.id}`)
+						.put(`/api/locations/${location.id}`)
 						.send(updateData)
 				})
 				.then(function(res) {
 					expect(res).to.have.status(201)
 
-					return Bathroom.findById(updateData.id)
+					return Location.findById(updateData.id)
 				})
-				.then(function(bathroom) {
-					expect(bathroom.address).to.equal(updateData.address)
+				.then(function(location) {
+					expect(location.address).to.equal(updateData.address)
 				})
 		})
 	})
