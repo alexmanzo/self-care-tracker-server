@@ -111,6 +111,23 @@ describe('Location API', function() {
                 })
 
         })
+
+        it('should return locations based on zip code', function() {
+            let locationZip
+            return Location
+                .findOne()
+                .then(function(location) {
+                	locationZip = location.zip
+                    return chai.request(app).get(`/api/locations/zip/${location.zip}`)
+                })
+                .then(function(res) {
+                	resLocation = res.body[0]
+                    expect(res).to.have.status(200)
+                    chai.assert.isAtLeast(resLocation.zip, parseInt(locationZip) - 15)
+                    chai.assert.isAtMost(resLocation.zip, parseInt(locationZip) + 15)
+                })
+
+        })
     })
 
     describe('POST endpoint', function() {
