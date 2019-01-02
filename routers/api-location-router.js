@@ -71,10 +71,15 @@ router.post('/', jsonParser, (req, res) => {
   }
 
   Location.create({
-    location: req.body.location,
+    name: req.body.name,
+    street: req.body.street,
+    city: req.body.city,
+    state: req.body.state,
     zip: req.body.zip,
-    address: req.body.address,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
     type: req.body.type,
+
   })
     .then(location => res.status(201).json(location.serialize()))
     .catch(err => {

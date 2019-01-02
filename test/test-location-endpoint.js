@@ -24,9 +24,13 @@ function seedLocationData() {
 
 function generateLocationData() {
     return {
-        location: faker.lorem.word(unique=true),
+        name: faker.lorem.word(unique=true),
+        street: faker.lorem.word(),
+        city: faker.lorem.word(),
+        state: faker.lorem.word(),
         zip: Math.floor(Math.random() * 100000),
-        address: faker.lorem.word(),
+        latitude: Math.random() * 100,
+        longitude: Math.random() * 100,
         type: faker.lorem.word()
     }
 }
@@ -79,7 +83,7 @@ describe('Location API', function() {
 
                     res.body.forEach(function(location) {
                         expect(location).to.be.a('object')
-                        expect(location).to.include.keys('id', 'location', 'zip', 'address', 'type')
+                        expect(location).to.include.keys('id', 'name', 'street', 'state', 'zip', 'latitude', 'longitude', 'type')
                     })
 
                     resLocation = res.body[0]
@@ -87,9 +91,13 @@ describe('Location API', function() {
                 })
                 .then(function(location) {
                     expect(resLocation.id).to.equal(location.id)
-                    expect(resLocation.location).to.equal(location.location)
+                    expect(resLocation.name).to.equal(location.name)
+                    expect(resLocation.street).to.equal(location.street)
+                    expect(resLocation.city).to.equal(location.city)
+                    expect(resLocation.state).to.equal(location.state)
                     expect(resLocation.zip).to.equal(location.zip)
-                    expect(resLocation.address).to.equal(location.address)
+                    expect(resLocation.latitude).to.equal(location.latitude)
+                    expect(resLocation.longitude).to.equal(location.longitude)
                     expect(resLocation.type).to.equal(location.type)
                 })
 
@@ -141,12 +149,17 @@ describe('Location API', function() {
                     expect(res).to.have.status(201)
                     expect(res).to.be.json
                     expect(res.body).to.be.a('object')
-                    expect(res.body).to.include.keys('id', 'location', 'zip', 'address', 'type')
+                    expect(res.body).to.include.keys('id', 'name', 'street', 'state', 'zip', 'latitude', 'longitude', 'type')
                     expect(res.body.id).to.not.be.null
-                    expect(res.body.location).to.equal(newLocation.location)
+                    expect(res.body.name).to.equal(newLocation.name)
+                    expect(res.body.street).to.equal(newLocation.street)
+                    expect(res.body.city).to.equal(newLocation.city)
+                    expect(res.body.state).to.equal(newLocation.state)
                     expect(res.body.zip).to.equal(newLocation.zip)
-                    expect(res.body.address).to.equal(newLocation.address)
+                    expect(res.body.latitude).to.equal(newLocation.latitude)
+                    expect(res.body.longitude).to.equal(newLocation.longitude)
                     expect(res.body.type).to.equal(newLocation.type)
+                    
                 })
         })
     })
@@ -176,7 +189,7 @@ describe('Location API', function() {
     describe('PUT endpoint', function() {
         it('should update field you send over', function() {
             const updateData = {
-                address: faker.lorem.word()
+                name: faker.lorem.word()
             }
 
             return Location
@@ -194,7 +207,7 @@ describe('Location API', function() {
                     return Location.findById(updateData.id)
                 })
                 .then(function(location) {
-                    expect(location.address).to.equal(updateData.address)
+                    expect(location.name).to.equal(updateData.name)
                 })
         })
     })

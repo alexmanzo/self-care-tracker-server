@@ -1,38 +1,62 @@
 
         {
-            "location": "The Atomic Fern",
+            "name": "The Atomic Fern",
+            "street": "108 East Parrish St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "108 East Parrish St",
+            "latitude": 35.995516,
+            "longitude": 78.899899,
             "type": "Bar"
         }
         {
             "location": "The Pinhook",
+            "street": "117 W Main St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "117 W Main St",
+            "latitude": 35.995489,
+            "longitude": 78.901487,
             "type": "Bar"
         }
         {
             "location": "Dashi Ramen",
+            "street": "415 E Chapel Hill St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "415 E Chapel Hill St",
+            "latitude": 35.997362,
+            "longitude": 78.899196,
             "type": "Restaurant"
         }
         {
             "location": "Taberna Tapas",
+            "street": "325 West Main St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "325 West Main St",
+            "latitude": 35.996722,
+            "longitude": 78.903402,
             "type": "Restaurant"
         }
         {
             "location": "Pizzeria Toro",
+            "street": "105 E Chapel Hill St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "105 E Chapel Hill St",
+            "latitude": 35.997326,
+            "longitude": 78.903628,
             "type": "Restaurant"
         }
         {
             "location": "Geer Street Garden",
+            "street": "644 Foster St",
+            "city": "Durham",
+            "state": "NC",
             "zip": 27701,
-            "address": "644 Foster St",
+            "latitude": 36.003848,
+            "longitude": 78.901150,
             "type": "Restaurant"
         }
 

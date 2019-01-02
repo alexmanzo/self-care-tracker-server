@@ -1,24 +1,34 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 mongoose.Promise = global.Promise
 
 const locationSchema = new mongoose.Schema({
-  location: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
+  street: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
   zip: { type: Number, required: true },
-  address: { type: String, required: true },
-  type: { type: String, required: true }
-});
+  latitude: { type: Number, required: true },
+  longitude: { type: Number, required: true },
+  type: { type: String, required: true },
+})
 
-locationSchema.plugin(uniqueValidator, { message: 'This location ha already been added.' })
+locationSchema.plugin(uniqueValidator, {
+  message: 'This location ha already been added.',
+})
 
 locationSchema.methods.serialize = function() {
   return {
     id: this._id,
-    location: this.location,
+    name: this.name,
+    street: this.street,
+    city: this.city,
+    state: this.state,
     zip: this.zip,
-    address: this.address,
-    type: this.type
-  };
-};
+    latitude: this.latitude,
+    longitude: this.longitude,
+    type: this.type,
+  }
+}
 
-module.exports = mongoose.model("Location", locationSchema);
+module.exports = mongoose.model('Location', locationSchema)
