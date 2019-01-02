@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alexmanzo/bathroom-finder-server.git"
+    "url": "https://github.com/alexmanzo/bathroom-finder-server.git"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
