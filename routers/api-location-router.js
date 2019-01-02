@@ -53,7 +53,7 @@ router.get('/type/:type', (req, res) => {
 router.get('/zip/:zip', (req, res) => {
 
   Location
-    .find({ 'zip': { "$gte": req.params.zip - 15, "$lte": req.params.zip + 15 } })
+    .find({ 'zip': { "$gte": parseInt(req.params.zip) - 15, "$lte": parseInt(req.params.zip) + 15 } })
     .collation({ locale: 'en_US', strength: 2})
     .sort({ location: 1 })
     .then(locations => {
