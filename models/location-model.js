@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 mongoose.Promise = global.Promise
 
 const locationSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   street: { type: String, required: true },
   city: { type: String, required: true },
   state: { type: String, required: true },
