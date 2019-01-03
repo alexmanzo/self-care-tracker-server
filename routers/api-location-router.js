@@ -37,9 +37,8 @@ router.get('/:id', (req, res) => {
 
 // Location by Location Type //
 router.get('/type/:type', (req, res) => {
-  Location
-    .find({ 'type': req.params.type })
-    .collation({ locale: 'en_US', strength: 2})
+  Location.find({ type: req.params.type })
+    .collation({ locale: 'en_US', strength: 2 })
     .sort({ location: 1 })
     .then(locations => {
       res.json(locations.map(location => location.serialize()))
@@ -51,10 +50,13 @@ router.get('/type/:type', (req, res) => {
 
 // Location by Zip Code //
 router.get('/zip/:zip', (req, res) => {
-
-  Location
-    .find({ 'zip': { "$gte": parseInt(req.params.zip) - 15, "$lte": parseInt(req.params.zip) + 15 } })
-    .collation({ locale: 'en_US', strength: 2})
+  Location.find({
+    zip: {
+      $gte: parseInt(req.params.zip) - 15,
+      $lte: parseInt(req.params.zip) + 15,
+    },
+  })
+    .collation({ locale: 'en_US', strength: 2 })
     .sort({ location: 1 })
     .then(locations => {
       res.json(locations.map(location => location.serialize()))
@@ -69,22 +71,28 @@ router.post('/', jsonParser, (req, res) => {
   if (req.body.location == '') {
     res.status(400).json({ error: 'No location added' })
   }
-
-  Location.create({
-    name: req.body.name,
-    street: req.body.street,
-    city: req.body.city,
-    state: req.body.state,
-    zip: req.body.zip,
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    type: req.body.type,
-
-  })
-    .then(location => res.status(201).json(location.serialize()))
-    .catch(err => {
-      console.error(err)
-      res.status(500).json({ error: 'Something went wrong' })
+  Location.find({ name: req.body.name }, { zip: req.body.zip })
+    .limit(1)
+    .then(results => {
+      if (results.length > 0) {
+        res.status(500).json({ error: 'This location already exists' })
+      } else {
+        Location.create({
+          name: req.body.name,
+          street: req.body.street,
+          city: req.body.city,
+          state: req.body.state,
+          zip: req.body.zip,
+          latitude: req.body.latitude,
+          longitude: req.body.longitude,
+          type: req.body.type,
+        })
+          .then(location => res.status(201).json(location.serialize()))
+          .catch(err => {
+            console.error(err)
+            res.status(500).json({ error: 'Something went wrong' })
+          })
+      }
     })
 })
 
