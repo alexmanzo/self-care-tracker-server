@@ -5,9 +5,8 @@
             "city": "Durham",
             "state": "NC",
             "zip": 27701,
-            "latitude": 35.995516,
-            "longitude": 78.899899,
-            "type": "Bar"
+            "type": "Bar",
+            "geometry": { "type": "point", "coordinates": [78.899899, 35.995516]}
         }
             {
                 "name": "The Pinhook",
@@ -15,9 +14,8 @@
                 "city": "Durham",
                 "state": "NC",
                 "zip": 27701,
-                "latitude": 35.995489,
-                "longitude": 78.901487,
-                "type": "Bar"
+                "type": "Bar",
+                "geometry": { "type": "point", "coordinates": [78.901487, 35.995489]}
             }
         {
             "name": "Dashi Ramen",
@@ -25,9 +23,8 @@
             "city": "Durham",
             "state": "NC",
             "zip": 27701,
-            "latitude": 35.997362,
-            "longitude": 78.899196,
-            "type": "Restaurant"
+            "type": "Restaurant",
+            "geometry": { "type": "point", "coordinates": [78.899196, 35.997362]}
         }
         {
             "name": "Taberna Tapas",
@@ -35,9 +32,8 @@
             "city": "Durham",
             "state": "NC",
             "zip": 27701,
-            "latitude": 35.996722,
-            "longitude": 78.903402,
-            "type": "Restaurant"
+            "type": "Restaurant",
+            "geometry": { "type": "point", "coordinates": [78.903402, 35.996722]}
         }
         {
             "name": "Pizzeria Toro",
@@ -45,9 +41,8 @@
             "city": "Durham",
             "state": "NC",
             "zip": 27701,
-            "latitude": 35.997326,
-            "longitude": 78.903628,
-            "type": "Restaurant"
+            "type": "Restaurant",
+            "geometry": { "type": "point", "coordinates": [78.903628, 35.997326]}
         }
         {
             "name": "Geer Street Garden",
@@ -55,9 +50,8 @@
             "city": "Durham",
             "state": "NC",
             "zip": 27701,
-            "latitude": 36.003848,
-            "longitude": 78.901150,
-            "type": "Restaurant"
+            "type": "Restaurant",
+            "geoLocation": { "type": "point", "coordinates": [78.901150, 36.003848]}
         }
 
   

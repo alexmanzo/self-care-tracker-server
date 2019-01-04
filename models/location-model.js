@@ -2,20 +2,47 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 mongoose.Promise = global.Promise
 
-const locationSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  street: { type: String, required: true },
-  city: { type: String, required: true },
-  state: { type: String, required: true },
-  zip: { type: Number, required: true },
-  latitude: { type: Number, required: true },
-  longitude: { type: Number, required: true },
-  type: { type: String, required: true },
+const geoSchema = new mongoose.Schema({
+  type: {
+    default: 'Point',
+    type: String,
+  },
+  coordinates: {
+    type: [Number],
+    index: '2dsphere'
+  },
 })
 
-locationSchema.plugin(uniqueValidator, {
-  message: 'This location ha already been added.',
+const locationSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Name field is required'],
+  },
+  street: {
+    type: String,
+    required: [true, 'Street field is required'],
+  },
+  city: {
+    type: String,
+    required: [true, 'City field is required'],
+  },
+  state: {
+    type: String,
+    required: [true, 'State field is required'],
+  },
+  zip: {
+    type: Number,
+    required: [true, 'Zip field is required'],
+  },
+  type: {
+    type: String,
+    required: [true, 'Type field is required'],
+  },
+  geometry: geoSchema
 })
+
+locationSchema.index( "2dsphere" )
+
 
 locationSchema.methods.serialize = function() {
   return {
@@ -25,10 +52,10 @@ locationSchema.methods.serialize = function() {
     city: this.city,
     state: this.state,
     zip: this.zip,
-    latitude: this.latitude,
-    longitude: this.longitude,
     type: this.type,
+    geometry: this.geometry
   }
 }
+
 
 module.exports = mongoose.model('Location', locationSchema)
