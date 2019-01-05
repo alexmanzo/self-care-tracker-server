@@ -1,17 +1,5 @@
 const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
 mongoose.Promise = global.Promise
-
-const geoSchema = new mongoose.Schema({
-  type: {
-    default: 'Point',
-    type: String,
-  },
-  coordinates: {
-    type: [Number],
-    index: '2dsphere'
-  },
-})
 
 const locationSchema = new mongoose.Schema({
   name: {
@@ -38,11 +26,18 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Type field is required'],
   },
-  geometry: geoSchema
+  loc: {
+    type: {
+      default: 'Point',
+      type: String,
+    },
+    coordinates: {
+      type: [Number],
+    },
+  },
 })
 
-locationSchema.index( "2dsphere" )
-
+locationSchema.index({ loc: '2dsphere' })
 
 locationSchema.methods.serialize = function() {
   return {
@@ -53,9 +48,8 @@ locationSchema.methods.serialize = function() {
     state: this.state,
     zip: this.zip,
     type: this.type,
-    geometry: this.geometry
+    loc: this.loc,
   }
 }
-
 
 module.exports = mongoose.model('Location', locationSchema)

@@ -18,7 +18,6 @@ function seedLocationData() {
   for (let i = 1; i <= 10; i++) {
     seedData.push(generateLocationData())
   }
-
   return Location.insertMany(seedData)
 }
 
@@ -30,16 +29,18 @@ function generateLocationData() {
     state: faker.address.state(),
     zip: Math.floor(Math.random() * 100000),
     type: faker.lorem.word(),
-    geometry: {
+    loc: {
       type: 'Point',
-      coordinates: [-85.739633,38.254223],
+      coordinates: [78.903628, 35.997326],
     },
   }
 }
 
 function tearDownDb() {
-  console.warn('Deleting database')
-  return mongoose.connection.dropDatabase()
+  console.warn('Resetting database')
+  return Location.remove({}, function(err) {
+    console.log(err)
+  })
 }
 
 describe('Location API', function() {
@@ -93,7 +94,7 @@ describe('Location API', function() {
               'state',
               'zip',
               'type',
-              'geometry'
+              'loc'
             )
           })
 
@@ -108,50 +109,57 @@ describe('Location API', function() {
           expect(resLocation.state).to.equal(location.state)
           expect(resLocation.zip).to.equal(location.zip)
           expect(resLocation.type).to.equal(location.type)
-          expect(resLocation.geometry).to.be.a('object')
+          expect(resLocation.loc).to.be.a('object')
         })
     })
 
-    // it('should return locations based on geography', function() {
-    //     let resLocation
-    //   return chai
-    //     .request(app)
-    //     .get('/api/locations/geography?lng=-85.739633&lat=38.254223')
-    //     .then(function(res) {
-    //       expect(res).to.have.status(200)
-    //       expect(res).to.be.json
-    //       expect(res.body).to.be.a('array')
-    //       expect(res.body).to.have.length.of.at.least(1)
+    it('should return locations based on geography', function() {
+      let resLocation
+      return chai
+        .request(app)
+        .get('/api/locations/geography?lat=35.99.7326&lng=78.903628')
+        .then(function(res) {
+          expect(res).to.have.status(200)
+          expect(res).to.be.json
+          expect(res.body).to.be.a('array')
+          expect(res.body).to.have.length.of.at.least(1)
 
-    //       res.body.forEach(function(location) {
-    //         expect(location).to.be.a('object')
-    //         expect(location).to.include.keys(
-    //           'id',
-    //           'name',
-    //           'street',
-    //           'state',
-    //           'zip',
-    //           'type',
-    //           'geometry'
-    //         )
-    //       })
+          res.body.forEach(function(location) {
+            expect(location).to.be.a('object')
+            expect(location).to.include.keys(
+              '_id',
+              'loc',
+              'name',
+              'street',
+              'state',
+              'zip',
+              'type',
+              '__v',
+              'dis'
+            )
+          })
 
-    //       resLocation = res.body[0]
-    //       return Location.findById(resLocation.id)
-    //     })
-    //     .then(function(location) {
-    //       expect(resLocation.id).to.equal(location.id)
-    //       expect(resLocation.name).to.equal(location.name)
-    //       expect(resLocation.street).to.equal(location.street)
-    //       expect(resLocation.city).to.equal(location.city)
-    //       expect(resLocation.state).to.equal(location.state)
-    //       expect(resLocation.zip).to.equal(location.zip)
-    //       expect(resLocation.type).to.equal(location.type)
-    //       expect(resLocation.geometry).to.be.a('object')
-    //     })
-    // })
-
-
+          resLocation = res.body[0]
+          return Location.findById(resLocation._id)
+        })
+        .then(function(location) {
+          expect(resLocation.loc).to.be.a('object')
+          expect(resLocation.loc.type).to.equal(location.loc.type)
+          expect(resLocation.loc.coordinates[0]).to.equal(
+            location.loc.coordinates[0]
+          )
+          expect(resLocation.loc.coordinates[1]).to.equal(
+            location.loc.coordinates[1]
+          )
+          expect(resLocation._id).to.equal(location.id)
+          expect(resLocation.name).to.equal(location.name)
+          expect(resLocation.street).to.equal(location.street)
+          expect(resLocation.city).to.equal(location.city)
+          expect(resLocation.state).to.equal(location.state)
+          expect(resLocation.zip).to.equal(location.zip)
+          expect(resLocation.type).to.equal(location.type)
+        })
+    })
   })
 
   describe('POST endpoint', function() {
@@ -173,7 +181,7 @@ describe('Location API', function() {
             'state',
             'zip',
             'type',
-            'geometry'
+            'loc'
           )
           expect(res.body.id).to.not.be.null
           expect(res.body.name).to.equal(newLocation.name)
@@ -182,10 +190,13 @@ describe('Location API', function() {
           expect(res.body.state).to.equal(newLocation.state)
           expect(res.body.zip).to.equal(newLocation.zip)
           expect(res.body.type).to.equal(newLocation.type)
-          expect(res.body.geometry.type).to.equal(newLocation.geometry.type)
-          expect(res.body.geometry.id).to.equal(newLocation.geometry.id)
-          expect(res.body.geometry.coordinates[0]).to.equal(newLocation.geometry.coordinates[0])
-          expect(res.body.geometry.coordinates[1]).to.equal(newLocation.geometry.coordinates[1])
+          expect(res.body.loc.type).to.equal(newLocation.loc.type)
+          expect(res.body.loc.coordinates[0]).to.equal(
+            newLocation.loc.coordinates[0]
+          )
+          expect(res.body.loc.coordinates[1]).to.equal(
+            newLocation.loc.coordinates[1]
+          )
         })
     })
   })

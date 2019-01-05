@@ -1,57 +1,56 @@
-
-        {
-            "name": "The Atomic Fern",
-            "street": "108 East Parrish St",
-            "city": "Durham",
-            "state": "NC",
-            "zip": 27701,
-            "type": "Bar",
-            "geometry": { "type": "point", "coordinates": [78.899899, 35.995516]}
-        }
-            {
-                "name": "The Pinhook",
-                "street": "117 W Main St",
-                "city": "Durham",
-                "state": "NC",
-                "zip": 27701,
-                "type": "Bar",
-                "geometry": { "type": "point", "coordinates": [78.901487, 35.995489]}
-            }
-        {
-            "name": "Dashi Ramen",
-            "street": "415 E Chapel Hill St",
-            "city": "Durham",
-            "state": "NC",
-            "zip": 27701,
-            "type": "Restaurant",
-            "geometry": { "type": "point", "coordinates": [78.899196, 35.997362]}
-        }
-        {
-            "name": "Taberna Tapas",
-            "street": "325 West Main St",
-            "city": "Durham",
-            "state": "NC",
-            "zip": 27701,
-            "type": "Restaurant",
-            "geometry": { "type": "point", "coordinates": [78.903402, 35.996722]}
-        }
-        {
-            "name": "Pizzeria Toro",
-            "street": "105 E Chapel Hill St",
-            "city": "Durham",
-            "state": "NC",
-            "zip": 27701,
-            "type": "Restaurant",
-            "geometry": { "type": "point", "coordinates": [78.903628, 35.997326]}
-        }
-        {
-            "name": "Geer Street Garden",
-            "street": "644 Foster St",
-            "city": "Durham",
-            "state": "NC",
-            "zip": 27701,
-            "type": "Restaurant",
-            "geoLocation": { "type": "point", "coordinates": [78.901150, 36.003848]}
-        }
-
-  
+[
+  {
+    "name": "The Atomic Fern",
+    "street": "108 East Parrish St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Bar",
+    "loc": { "type": "Point", "coordinates": [78.899899, 35.995516] }
+  },
+  {
+    "name": "The Pinhook",
+    "street": "117 W Main St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Bar",
+    "loc": { "type": "Point", "coordinates": [78.901487, 35.995489] }
+  },
+  {
+    "name": "Dashi Ramen",
+    "street": "415 E Chapel Hill St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Restaurant",
+    "loc": { "type": "Point", "coordinates": [78.899196, 35.997362] }
+  },
+  {
+    "name": "Taberna Tapas",
+    "street": "325 West Main St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Restaurant",
+    "loc": { "type": "Point", "coordinates": [78.903402, 35.996722] }
+  },
+  {
+    "name": "Pizzeria Toro",
+    "street": "105 E Chapel Hill St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Restaurant",
+    "loc": { "type": "Point", "coordinates": [78.903628, 35.997326] }
+  },
+  {
+    "name": "Geer Street Garden",
+    "street": "644 Foster St",
+    "city": "Durham",
+    "state": "NC",
+    "zip": 27701,
+    "type": "Restaurant",
+    "loc": { "type": "Point", "coordinates": [78.90115, 36.003848] }
+  }
+]
