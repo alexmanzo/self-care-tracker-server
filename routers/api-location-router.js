@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise
 
 // ----- GET Requests ----- //
 
-// All Locations //
+// Locations by Query //
 router.get('/', jsonParser, (req, res) => {
   Location.find(req.query)
     .collation({ locale: 'en_US', strength: 1 })
@@ -23,16 +23,16 @@ router.get('/', jsonParser, (req, res) => {
     })
 })
 
-// // Location by ID //
-// router.get('/:id', (req, res) => {
-//   Location.findById(req.params.id)
-//     .then(location => {
-//       res.json(location.serialize())
-//     })   
-//     .catch(err => {
-//       res.status(500).json({ error: 'Server Error Get ID' })
-//     })
-// })
+// Location by ID //
+router.get('/id/:id', (req, res) => {
+  Location.findById(req.params.id)
+    .then(location => {
+      res.json(location.serialize())
+    })      
+    .catch(err => {
+      res.status(500).json({ error: 'Server Error Get ID' })
+    })
+})
 
 // Location by Geography//
 router.get('/geography', (req, res) => {
