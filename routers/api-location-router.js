@@ -28,7 +28,7 @@ router.get('/id/:id', (req, res) => {
   Location.findById(req.params.id)
     .then(location => {
       res.json(location.serialize())
-    })      
+    })
     .catch(err => {
       res.status(500).json({ error: 'Server Error Get ID' })
     })
@@ -36,16 +36,16 @@ router.get('/id/:id', (req, res) => {
 
 // Location by Geography//
 router.get('/geography', (req, res) => {
-  Location.aggregate()
-    .near({
-      near: {
-        type: 'Point',
-        coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
+  Location.find({
+    loc: {
+      $nearSphere: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
+        },
       },
-      maxDistance: 100000,
-      spherical: true,
-      distanceField: 'dis',
-    })
+    },
+  }).limit(50)
     .then(locations => {
       res.json(locations)
     })

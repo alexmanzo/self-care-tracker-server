@@ -135,12 +135,12 @@ describe('Location API', function() {
               'loc',
               'name',
               'street',
+              'city',
               'state',
               'zip',
               'type',
               'googlePlaceId',
               '__v',
-              'dis'
             )
           })
 
