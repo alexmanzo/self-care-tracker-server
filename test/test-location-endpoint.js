@@ -29,6 +29,7 @@ function generateLocationData() {
     state: faker.address.state(),
     zip: Math.floor(Math.random() * 100000),
     type: faker.lorem.word(),
+    googlePlaceId: faker.random.uuid(),
     loc: {
       type: 'Point',
       coordinates: [78.903628, 35.997326],
@@ -94,6 +95,7 @@ describe('Location API', function() {
               'state',
               'zip',
               'type',
+              'googlePlaceId',
               'loc'
             )
           })
@@ -109,6 +111,7 @@ describe('Location API', function() {
           expect(resLocation.state).to.equal(location.state)
           expect(resLocation.zip).to.equal(location.zip)
           expect(resLocation.type).to.equal(location.type)
+          expect(resLocation.googlePlaceId).to.equal(location.googlePlaceId)
           expect(resLocation.loc).to.be.a('object')
         })
     })
@@ -134,6 +137,7 @@ describe('Location API', function() {
               'state',
               'zip',
               'type',
+              'googlePlaceId',
               '__v',
               'dis'
             )
@@ -158,6 +162,7 @@ describe('Location API', function() {
           expect(resLocation.state).to.equal(location.state)
           expect(resLocation.zip).to.equal(location.zip)
           expect(resLocation.type).to.equal(location.type)
+          expect(resLocation.googlePlaceId).to.equal(location.googlePlaceId)
         })
     })
   })
@@ -181,6 +186,7 @@ describe('Location API', function() {
             'state',
             'zip',
             'type',
+            'googlePlaceId',
             'loc'
           )
           expect(res.body.id).to.not.be.null
@@ -190,6 +196,7 @@ describe('Location API', function() {
           expect(res.body.state).to.equal(newLocation.state)
           expect(res.body.zip).to.equal(newLocation.zip)
           expect(res.body.type).to.equal(newLocation.type)
+          expect(res.body.googlePlaceId).to.equal(newLocation.googlePlaceId)
           expect(res.body.loc.type).to.equal(newLocation.loc.type)
           expect(res.body.loc.coordinates[0]).to.equal(
             newLocation.loc.coordinates[0]

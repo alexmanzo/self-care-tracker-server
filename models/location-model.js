@@ -26,6 +26,10 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Type field is required'],
   },
+  googlePlaceId: {
+    type: String,
+    required: [true, 'Google Place ID required.']
+  },
   loc: {
     type: {
       default: 'Point',
@@ -48,6 +52,7 @@ locationSchema.methods.serialize = function() {
     state: this.state,
     zip: this.zip,
     type: this.type,
+    googlePlaceId: this.googlePlaceId,
     loc: this.loc,
   }
 }
