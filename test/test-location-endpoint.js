@@ -28,7 +28,7 @@ function generateLocationData() {
     city: faker.address.city(),
     state: faker.address.state(),
     zip: Math.floor(Math.random() * 100000),
-    type: faker.lorem.word(),
+    type: [faker.lorem.word(), faker.lorem.word()],
     googlePlaceId: [faker.random.uuid(), faker.random.uuid()],
     loc: {
       type: 'Point',
@@ -110,7 +110,8 @@ describe('Location API', function() {
           expect(resLocation.city).to.equal(location.city)
           expect(resLocation.state).to.equal(location.state)
           expect(resLocation.zip).to.equal(location.zip)
-          expect(resLocation.type).to.equal(location.type)
+          expect(resLocation.type[0]).to.equal(location.type[0])
+          expect(resLocation.type[1]).to.equal(location.type[1])
           expect(resLocation.googlePlaceId[0]).to.equal(location.googlePlaceId[0])
           expect(resLocation.googlePlaceId[1]).to.equal(location.googlePlaceId[1])
           expect(resLocation.loc).to.be.a('object')
@@ -162,7 +163,8 @@ describe('Location API', function() {
           expect(resLocation.city).to.equal(location.city)
           expect(resLocation.state).to.equal(location.state)
           expect(resLocation.zip).to.equal(location.zip)
-          expect(resLocation.type).to.equal(location.type)
+          expect(resLocation.type[0]).to.equal(location.type[0])
+          expect(resLocation.type[1]).to.equal(location.type[1])
           expect(resLocation.googlePlaceId[0]).to.equal(location.googlePlaceId[0])
           expect(resLocation.googlePlaceId[1]).to.equal(location.googlePlaceId[1])
         })
@@ -197,7 +199,8 @@ describe('Location API', function() {
           expect(res.body.city).to.equal(newLocation.city)
           expect(res.body.state).to.equal(newLocation.state)
           expect(res.body.zip).to.equal(newLocation.zip)
-          expect(res.body.type).to.equal(newLocation.type)
+          expect(res.body.type[0]).to.equal(newLocation.type[0])
+          expect(res.body.type[1]).to.equal(newLocation.type[1])
           expect(res.body.googlePlaceId[0]).to.equal(newLocation.googlePlaceId[0])
           expect(res.body.googlePlaceId[1]).to.equal(newLocation.googlePlaceId[1])
           expect(res.body.loc.type).to.equal(newLocation.loc.type)

@@ -23,7 +23,7 @@ const locationSchema = new mongoose.Schema({
     required: [true, 'Zip field is required'],
   },
   type: {
-    type: String,
+    type: [String],
     required: [true, 'Type field is required'],
   },
   googlePlaceId: {
