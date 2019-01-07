@@ -19,7 +19,7 @@ const locationSchema = new mongoose.Schema({
     required: [true, 'State field is required'],
   },
   zip: {
-    type: Number,
+    type: String,
     required: [true, 'Zip field is required'],
   },
   type: {
@@ -27,8 +27,8 @@ const locationSchema = new mongoose.Schema({
     required: [true, 'Type field is required'],
   },
   googlePlaceId: {
-    type: [String],
-    required: [true, 'Google Place ID required.']
+    type: String,
+    required: [true, 'Google Place ID required.'],
   },
   loc: {
     type: {
@@ -41,7 +41,18 @@ const locationSchema = new mongoose.Schema({
   },
 })
 
-locationSchema.index({ loc: '2dsphere' })
+locationSchema.index({
+  loc: '2dsphere',
+})
+
+locationSchema.index({
+  name: 'text',
+  street: 'text',
+  city: 'text',
+  state: 'text',
+  zip: 'text',
+  type: 'text',
+})
 
 locationSchema.methods.serialize = function() {
   return {

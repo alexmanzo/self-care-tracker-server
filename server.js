@@ -14,6 +14,7 @@ app.use(
   cors()
 )
 
+
 // ROUTES
 const locationRouter = require('./routers/api-location-router')
 app.use('/api/locations', locationRouter)

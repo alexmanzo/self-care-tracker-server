@@ -27,9 +27,9 @@ function generateLocationData() {
     street: faker.address.streetAddress(),
     city: faker.address.city(),
     state: faker.address.state(),
-    zip: Math.floor(Math.random() * 100000),
+    zip: faker.address.zipCode(),
     type: [faker.lorem.word(), faker.lorem.word()],
-    googlePlaceId: [faker.random.uuid(), faker.random.uuid()],
+    googlePlaceId: faker.random.uuid(),
     loc: {
       type: 'Point',
       coordinates: [78.903628, 35.997326],
@@ -112,11 +112,24 @@ describe('Location API', function() {
           expect(resLocation.zip).to.equal(location.zip)
           expect(resLocation.type[0]).to.equal(location.type[0])
           expect(resLocation.type[1]).to.equal(location.type[1])
-          expect(resLocation.googlePlaceId[0]).to.equal(location.googlePlaceId[0])
-          expect(resLocation.googlePlaceId[1]).to.equal(location.googlePlaceId[1])
+          expect(resLocation.googlePlaceId).to.equal(location.googlePlaceId)
           expect(resLocation.loc).to.be.a('object')
         })
     })
+
+    it('should return locations based on a query', function() {
+      return Location.findOne()
+        .then(function(location) {
+          return chai.request(app).get(`/api/locations/search?searchTerm=${location.name}`)
+        })
+        .then(function(res) {
+          expect(res).to.have.status(200)
+          expect(res).to.be.json
+          expect(res.body).to.be.a('array')
+          expect(res.body).to.have.length.of.at.least(1)
+        })
+    })
+
 
     it('should return locations based on geography', function() {
       let resLocation
@@ -165,8 +178,7 @@ describe('Location API', function() {
           expect(resLocation.zip).to.equal(location.zip)
           expect(resLocation.type[0]).to.equal(location.type[0])
           expect(resLocation.type[1]).to.equal(location.type[1])
-          expect(resLocation.googlePlaceId[0]).to.equal(location.googlePlaceId[0])
-          expect(resLocation.googlePlaceId[1]).to.equal(location.googlePlaceId[1])
+          expect(resLocation.googlePlaceId).to.equal(location.googlePlaceId)
         })
     })
   })
@@ -201,8 +213,7 @@ describe('Location API', function() {
           expect(res.body.zip).to.equal(newLocation.zip)
           expect(res.body.type[0]).to.equal(newLocation.type[0])
           expect(res.body.type[1]).to.equal(newLocation.type[1])
-          expect(res.body.googlePlaceId[0]).to.equal(newLocation.googlePlaceId[0])
-          expect(res.body.googlePlaceId[1]).to.equal(newLocation.googlePlaceId[1])
+          expect(res.body.googlePlaceId).to.equal(newLocation.googlePlaceId)
           expect(res.body.loc.type).to.equal(newLocation.loc.type)
           expect(res.body.loc.coordinates[0]).to.equal(
             newLocation.loc.coordinates[0]

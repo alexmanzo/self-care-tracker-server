@@ -10,9 +10,9 @@ mongoose.Promise = global.Promise
 
 // ----- GET Requests ----- //
 
-// Locations by Query //
+// Get All Locations //
 router.get('/', jsonParser, (req, res) => {
-  Location.find(req.query)
+  Location.find( {} )
     .collation({ locale: 'en_US', strength: 1 })
     .sort({ location: 1 })
     .then(locations => {
@@ -20,6 +20,19 @@ router.get('/', jsonParser, (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ error: 'Server Error Get' })
+    })
+})
+
+// Get Locations by Query //
+router.get('/search', jsonParser, (req, res) => {
+  let keywords = req.query.searchTerm.split(/\s+/).map(keyword => `"${keyword}"`).join(' ')
+  Location.find( { $text: { $search: keywords } } )
+    .sort({ location: 1 })
+    .then(locations => {
+      res.json(locations.map(location => location.serialize()))
+    })
+    .catch(err => {
+      res.status(500).json({ error: `Server Error ${err}` })
     })
 })
 
