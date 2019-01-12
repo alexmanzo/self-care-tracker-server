@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise
 
 // Get All Locations //
 router.get('/', jsonParser, (req, res) => {
-  Location.find( {} )
+  Location.find({})
     .collation({ locale: 'en_US', strength: 1 })
     .sort({ location: 1 })
     .then(locations => {
@@ -25,8 +25,11 @@ router.get('/', jsonParser, (req, res) => {
 
 // Get Locations by Query //
 router.get('/search', jsonParser, (req, res) => {
-  let keywords = req.query.searchTerm.split(/\s+/).map(keyword => `"${keyword}"`).join(' ')
-  Location.find( { $text: { $search: keywords } } )
+  let keywords = req.query.searchTerm
+    .split(/\s+/)
+    .map(keyword => `"${keyword}"`)
+    .join(' ')
+  Location.find({ $text: { $search: keywords } })
     .sort({ location: 1 })
     .then(locations => {
       res.json(locations.map(location => location.serialize()))
@@ -49,16 +52,19 @@ router.get('/id/:id', (req, res) => {
 
 // Location by Geography//
 router.get('/geography', (req, res) => {
-  Location.find({
-    loc: {
-      $nearSphere: {
-        $geometry: {
-          type: 'Point',
-          coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
-        },
-      },
-    },
-  }).limit(50)
+  Location.aggregate([
+    {
+      $geoNear: {
+         near: { type: "Point", coordinates: [ parseFloat(req.query.lng), parseFloat(req.query.lat) ] },
+         distanceField: "dist.calculated",
+         key: 'loc',
+         num: 50,
+         //maxDistance: 2,
+         //query: { type: "public" },
+         spherical: true
+      }
+    }
+ ])
     .then(locations => {
       res.json(locations)
     })
