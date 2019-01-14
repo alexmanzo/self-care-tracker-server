@@ -82,7 +82,7 @@ router.post('/', jsonParser, (req, res) => {
     .limit(1)
     .then(results => {
       if (results.length > 0) {
-        res.status(500).json({ error: 'This location already exists' })
+        res.status(500).json({ message: 'This location already exists' })
       } else {
         Location.create(req.body)
           .then(location => res.status(201).json(location.serialize()))
