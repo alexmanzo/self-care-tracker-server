@@ -19,17 +19,17 @@ router.get('/', jsonParser, (req, res) => {
       res.json(locations.map(location => location.serialize()))
     })
     .catch(err => {
-      res.status(500).json({ error: 'Server Error Get' })
+      res.status(500).json({ error: 'Server Error ${err}' })
     })
 })
 
 // Get Locations by Query //
 router.get('/search', jsonParser, (req, res) => {
-  let keywords = req.query.searchTerm
-    .split(/\s+/)
-    .map(keyword => `"${keyword}"`)
-    .join(' ')
-  Location.find({ $text: { $search: keywords } })
+  // let keywords = req.query.searchTerm
+  //   .split(/\s+/)
+  //   .map(keyword => `"${keyword}"`)
+  //   .join(' ')
+  Location.find({ $text: { $search: req.query.searchTerm } })
     .sort({ location: 1 })
     .then(locations => {
       res.json(locations.map(location => location.serialize()))
@@ -55,16 +55,19 @@ router.get('/geography', (req, res) => {
   Location.aggregate([
     {
       $geoNear: {
-         near: { type: "Point", coordinates: [ parseFloat(req.query.lng), parseFloat(req.query.lat) ] },
-         distanceField: "dist.calculated",
-         key: 'loc',
-         num: 50,
-         //maxDistance: 2,
-         //query: { type: "public" },
-         spherical: true
-      }
-    }
- ])
+        near: {
+          type: 'Point',
+          coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
+        },
+        distanceField: 'dist.calculated',
+        key: 'loc',
+        num: 50,
+        //maxDistance: 2,
+        //query: { type: "public" },
+        spherical: true,
+      },
+    },
+  ])
     .then(locations => {
       res.json(locations)
     })
@@ -74,7 +77,7 @@ router.get('/geography', (req, res) => {
 })
 
 // ----- POST Requests ----- //
-router.post('/', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res, next) => {
   if (req.body.location == '') {
     res.status(400).json({ error: 'No location added' })
   }
@@ -83,15 +86,14 @@ router.post('/', jsonParser, (req, res) => {
     .then(results => {
       if (results.length > 0) {
         res.status(500).json({ message: 'This location already exists' })
-      } else {
-        Location.create(req.body)
-          .then(location => res.status(201).json(location.serialize()))
-          .catch(err => {
-            console.error(err)
-            res.status(500).json({ error: `${err}` })
-          })
       }
     })
+    Location.create(req.body)
+        .then(location => res.status(201).json(location.serialize()))
+        .catch(err => {
+          console.error(err)
+          res.status(500).json({ error: `${err}` })
+      })
 })
 
 // ----- PUT Requests ----- //

@@ -27,7 +27,7 @@ const locationSchema = new mongoose.Schema({
     required: [true, 'Type field is required'],
   },
   googlePlaceId: {
-    type: String,
+    type: String, 
     required: [true, 'Google Place ID required.'],
   },
   loc: {

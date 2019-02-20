@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const { PORT, DATABASE_URL, CLIENT_ORIGIN } = require('./config')
 
+
 mongoose.Promise = global.Promise
 app.use(express.static('public'))
 app.use(morgan('common'))
@@ -13,8 +14,6 @@ app.use(morgan('common'))
 app.use(
   cors()
 )
-
-
 // ROUTES
 const locationRouter = require('./routers/api-location-router')
 app.use('/api/locations', locationRouter)
@@ -60,7 +59,7 @@ function closeServer() {
 }
 
 if (require.main === module) {
-  runServer(DATABASE_URL).catch(err => console.log(error(err)))
+  runServer(DATABASE_URL).catch(err => console.log(err))
 }
 
 module.exports = { app, runServer, closeServer }
