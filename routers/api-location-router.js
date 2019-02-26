@@ -88,16 +88,19 @@ router.post('/', jsonParser, (req, res, next) => {
   Location.find({ name: req.body.name }, { zip: req.body.zip })
     .limit(1)
     .then(results => {
-      if (results.length > 0) {
-        res.status(500).json({ message: 'This location already exists' })
+      if (results.length === 0) {
+        Location.create(req.body)
+          .then(location => res.status(201).json(location.serialize()))
+          .catch(err => {
+            res.status(500).json({ error: `${err}` })
+          })
+      } else {
+        throw new Error('This location already exists.')
       }
     })
-    Location.create(req.body)
-        .then(location => res.status(201).json(location.serialize()))
-        .catch(err => {
-          console.error(err)
-          res.status(500).json({ error: `${err}` })
-      })
+    .catch(err => {
+      res.status(500).json({ message: `${err}` })
+    })
 })
 
 // ----- PUT Requests ----- //
