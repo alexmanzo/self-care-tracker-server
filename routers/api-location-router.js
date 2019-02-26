@@ -59,11 +59,15 @@ router.get('/geography', (req, res) => {
           type: 'Point',
           coordinates: [parseFloat(req.query.lng), parseFloat(req.query.lat)],
         },
-        distanceField: 'dist.calculated',
+        // Field that will be returned with distance from queried location
+        distanceField: 'distance',
+        // Specifies indexed field to look in order to calculate distance
         key: 'loc',
+        // Limit to 50 results
         num: 50,
-        //maxDistance: 2,
-        //query: { type: "public" },
+        // Equivalent to 50 miles
+        maxDistance: 80467.2,
+        // Necessary since our model uses a 2dsphere
         spherical: true,
       },
     },
