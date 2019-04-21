@@ -25,10 +25,6 @@ router.get('/', jsonParser, (req, res) => {
 
 // Get Locations by Query //
 router.get('/search', jsonParser, (req, res) => {
-  // let keywords = req.query.searchTerm
-  //   .split(/\s+/)
-  //   .map(keyword => `"${keyword}"`)
-  //   .join(' ')
   Location.find({ $text: { $search: req.query.searchTerm } })
     .sort({ location: 1 })
     .then(locations => {
@@ -81,23 +77,32 @@ router.get('/geography', (req, res) => {
 })
 
 // ----- POST Requests ----- //
-router.post('/', jsonParser, (req, res, next) => {
+router.post('/', jsonParser, (req, res) => {
+  // Don't process without a body
   if (req.body.location == '') {
     res.status(400).json({ error: 'No location added' })
   }
+  // Check to see if this location exists in database - checking by name AND zip
+  // This accounts for multiple locations of same business
   Location.find({ name: req.body.name }, { zip: req.body.zip })
+    // We only need to find one to throw the error
     .limit(1)
     .then(results => {
+      // If it doesn't exist, we can create a new document based on our body
       if (results.length === 0) {
         Location.create(req.body)
+          // Send back new location in response
           .then(location => res.status(201).json(location.serialize()))
+          // Catch error in creating new location
           .catch(err => {
             res.status(500).json({ error: `${err}` })
           })
       } else {
+        // Throw error if duplicate location exists
         throw new Error('This location already exists.')
       }
     })
+    // Catch the error we just threw
     .catch(err => {
       res.status(500).json({ message: `${err}` })
     })

@@ -1,22 +1,35 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const morgan = require('morgan')
+const passport = require('passport')
 const { PORT, DATABASE_URL, CLIENT_ORIGIN } = require('./config')
+const { localStrategy, jwtStrategy } = require('./strategies')
 
 
-mongoose.Promise = global.Promise
+passport.use(localStrategy)
+passport.use(jwtStrategy)
+
+
+// Serve static assets if any
 app.use(express.static('public'))
+// Logs requests to console
 app.use(morgan('common'))
 
 //CORS
 app.use(
   cors()
 )
+
 // ROUTES
 const locationRouter = require('./routers/api-location-router')
+const userRouter = require('./routers/api-user-router')
+const authRouter = require('./routers/api-auth-router')
 app.use('/api/locations', locationRouter)
+app.use('/api/users', userRouter)
+app.use('/api/auth', authRouter)
 
 // SERVER SETUP
 let server
@@ -58,6 +71,7 @@ function closeServer() {
   })
 }
 
+// Checks if module is the entry script, if it is, runServer
 if (require.main === module) {
   runServer(DATABASE_URL).catch(err => console.log(err))
 }

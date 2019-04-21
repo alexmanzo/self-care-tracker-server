@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
 
 const locationSchema = new mongoose.Schema({
   name: {
@@ -69,3 +68,16 @@ locationSchema.methods.serialize = function() {
 }
 
 module.exports = mongoose.model('Location', locationSchema)
+
+locationSchema.index({
+  loc: '2dsphere',
+})
+
+locationSchema.index({
+  name: 'text',
+  street: 'text',
+  city: 'text',
+  state: 'text',
+  zip: 'text',
+  type: 'text',
+})
