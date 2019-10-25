@@ -19,7 +19,7 @@ router.get('/', jsonParser, (req, res) => {
       res.json(locations.map(location => location.serialize()))
     })
     .catch(err => {
-      res.status(500).json({ error: 'Server Error ${err}' })
+      res.status(500).json({ error: `Server Error ${err}` })
     })
 })
 
