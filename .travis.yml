@@ -1,7 +1,13 @@
 language: node_js
+
 node_js: node
+
 services:
-- mongodb
+  - mongodb
+
+before_install:
+  - cp .env.example .env
+
 deploy:
   provider: heroku
   api_key:
