@@ -87,8 +87,8 @@ install: ##@dev-environment Configure development environment.
 	make import-db
 
 import-db: ##@dev-environment Import locally cached copy of `database.sql` to project dir.
-	docker-compose exec mongo mongoexport -h ds163053.mlab.com:63053 -d bathroom-finder -c locations -u $(MONGO_PROD_USERNAME) -p $(MONGO_PROD_PASSWORD) -o export.json
-	docker-compose exec mongo mongoimport --db $(MONGO_LOCAL_DATABASE) -u $(MONGO_LOCAL_USERNAME) -p $(MONGO_LOCAL_PASSWORD) --collection locations --drop --file export.json
+	docker-compose exec mongo mongoexport -h ds249017.mlab.com:49017 -d self-care-tasks -c tasks -u $(MONGO_PROD_USERNAME) -p $(MONGO_PROD_PASSWORD) -o export.json
+	docker-compose exec mongo mongoimport --db $(MONGO_LOCAL_DATABASE) -u $(MONGO_LOCAL_USERNAME) -p $(MONGO_LOCAL_PASSWORD) --collection tasks --drop --file export.json
 
 npm-install: ##theme Installs npm dependencies
 	docker-compose exec node 'npm install'
