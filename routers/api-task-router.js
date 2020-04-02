@@ -38,8 +38,10 @@ router.post('/', jsonParser, (req, res) => {
   if (req.body.task == '') {
     res.status(400).json({ error: 'No task added' })
   }
+
+  const { task, user } = req.body;
   // Check to see if this task exists in database.
-  Task.find({ task: req.body.task })
+  Task.find({ task, user })
     // We only need to find one to throw the error
     .limit(1)
     .then(results => {
